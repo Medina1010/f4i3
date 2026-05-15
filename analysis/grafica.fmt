@@ -1,0 +1,7 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+	title = {&(titulo)}
+\end{tikzpicture}
+\end{figure}
