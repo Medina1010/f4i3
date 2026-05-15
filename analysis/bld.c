@@ -2,7 +2,7 @@
 #include "stdlib.h"
 
 int cmd (char *prompt) {
-	printf("cmd > %s\n", prompt);
+	printf("cmd > analysis > %s\n", prompt);
 	return system(prompt);
 }
 
