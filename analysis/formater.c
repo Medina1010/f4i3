@@ -38,3 +38,14 @@ void formater(char *src, char *dst, table_t *tbl) {
 	}
 
 }
+
+void formater_file (char *src_path, char *dst_path) {
+	chars src, dst;
+	chars_from_file (&src, src_path);
+	chars_from_file (&dst, dst_path);
+	formater(src->data, dst->data, tbl);
+	free(src->data);
+	free(dst->data);
+}
+
+
