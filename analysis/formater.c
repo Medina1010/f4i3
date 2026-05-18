@@ -1,12 +1,7 @@
 #include <string.h>
-#include <formater.h>
+#include "formater.h"
 #include <stdio.h>
-
-typedef struct {
-	size_t count;
-	char keys[128][16];
-	char values[128][16];
-} table_t;
+#include <stdlib.h>
 
 void table_append(table_t *tbl, char *key, char *value) {
 	strcpy(tbl->keys[tbl->count], key);
@@ -39,13 +34,41 @@ void formater(char *src, char *dst, table_t *tbl) {
 
 }
 
-void formater_file (char *src_path, char *dst_path) {
-	chars src, dst;
-	chars_from_file (&src, src_path);
-	chars_from_file (&dst, dst_path);
-	formater(src->data, dst->data, tbl);
-	free(src->data);
-	free(dst->data);
+typedef struct {
+	size_t count, cap;
+	char *data;
+} chars;
+
+void chars_from_file(chars *str, char *path) {
+	FILE *file = fopen(path, "r");
+	while(!feof(file)) {
+		if (str->count >= str->cap) {
+			str->cap = str->cap ? str->cap * 2 : 1;
+			str->data = realloc(str->data, str->cap);
+		}
+		str->data[str->count++] = fgetc(file);
+	}
+	if (str->count >= str->cap) {
+		str->cap = str->cap ? str->cap * 2 : 1;
+		str->data = realloc(str->data, str->cap);
+	}
+	str->data[str->count++] = '\0';
+
+	fclose(file);
 }
 
+void str_to_file(char *str, char *path) {
+	FILE *file = fopen(path, "w");
+	fprintf(file, "%s", str);
+	fclose(file);
+}
 
+void formater_file (char *src_path, char *dst_path, table_t *tbl) {
+	chars src;
+	chars_from_file (&src, src_path);
+	char *dst = malloc(strlen(src.data));
+	formater(src.data, dst, tbl);
+	str_to_file(dst, dst_path);
+	free(src.data);
+	free(dst);
+}

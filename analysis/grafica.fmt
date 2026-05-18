@@ -2,6 +2,6 @@
 \centering
 \begin{tikzpicture}
 \begin{axis}[
-	title = {&(titulo)}
+	title = {$(titulo)}
 \end{tikzpicture}
 \end{figure}
