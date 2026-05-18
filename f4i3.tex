@@ -1,0 +1,30 @@
+\documentclass{article}
+
+\input informacion.tex
+\input base/config.tex
+
+\begin{document}
+
+\input base/encabezado.tex
+
+\input base/resumen.tex
+\begin{multicols}{2}
+	\section*{Introducción}
+	\input src/introduccion.tex
+
+	\section*{Metodolog\'ia}
+	\input src/metodologia.tex
+
+	\section*{Resultados}
+	\input src/resultados.tex
+
+	\section*{Discusi\'on}
+	\input src/discusion.tex
+
+	\section*{Conclusiones}
+	\input src/conclusion.tex
+
+	\input base/referencias.tex
+\end{multicols}
+
+\end{document}
