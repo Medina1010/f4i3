@@ -65,14 +65,14 @@ float map (float xi, float xf, float yi, float yf, float x) {
 	return yi + (yf - yi) / (xf - xi) * (x - xi);
 }
 
-void term_graph (floats x, floats y) {
+void term_graph (floats x, floats y, float height) {
 	char screen[100*40];
 	for (size_t i = 0; i < 100*40; i++)
 		screen[i] = ' ';
 
 	for (size_t i = 0; i < x.count; i++)
 		screen[(int)(map(0, 6000, 0, 100, x.data[i])) + 
-		       (int)(map(0, 90, 40, 0, y.data[i])) * 100] = '*';
+		       (int)(map(0, height, 40, 0, y.data[i])) * 100] = '*';
 	for (size_t i = 0; i < 40; i++) {
 		printf("%.100s\n", &screen[100*i]);
 	}
@@ -104,6 +104,12 @@ int main (void) {
 		"# Temperagura contra tiempo #\n"
 		"#############################\n"
 	),
-	term_graph(time, temp);
+	term_graph(time, temp, 90);
+	printf(
+		"#################################\n"
+		"# Log Temperagura contra tiempo #\n"
+		"#################################\n"
+	);
+	term_graph(time, ln_temp, 5);
 	return 0;
 }
