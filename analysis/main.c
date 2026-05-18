@@ -81,13 +81,17 @@ void term_graph (floats x, floats y, float height) {
 int main (void) {
 	floats temp = {0}, time = {0};
 	FILE *temp_file = fopen("res/temperaturas.csv", "r"),
-	     *time_file = fopen("res/tiempos.csv", "r");
+	     *time_file = fopen("res/tiempos.csv", "r"),
+	     *data_file = fopen("res/data.csv", "w");
+	fprintf(data_file, "tiempo, temperatura\n");
 	while ( !feof(temp_file) || !feof(time_file) ) {
 		fscanf(temp_file, "%f\n", &temp.data[temp.count++]);
 		fscanf(time_file, "%f\n", &time.data[time.count++]);
+		fprintf(data_file, "%f, %f\n", time.data[time.count - 1], temp.data[temp.count - 1]);
 	}
 	fclose(temp_file);
 	fclose(time_file);
+	fclose(data_file);
 	floats ln_temp = floats_ln(temp);
 	lin_reg_t rl = lin_reg(time, ln_temp);
 	printf(
