@@ -9,6 +9,21 @@ void table_append(table_t *tbl, char *key, char *value) {
 	tbl->count++;
 }
 
+int table_search(table_t *tbl, char *key) {
+	for (size_t i = 0; i < tbl->count; i++)
+		if (!strcmp(tbl->keys[i], key))
+			return i;
+	return -1;
+}
+
+void table_define(table_t *tbl, char *key, char *value) {
+	int index = table_search(tbl, key);
+	if (index != -1)
+		strcpy(tbl->values[index], value);
+	else
+		table_append(tbl, key, value);
+}
+
 void table_append_float(table_t *tbl, char *key, float value, int decimals) {
 	strcpy(tbl->keys[tbl->count], key);
 	sprintf(tbl->values[tbl->count], "%.*f", decimals, value);

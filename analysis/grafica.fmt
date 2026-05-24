@@ -1,8 +1,9 @@
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\begin{axis}
+\begin{axis} [grid = both, xlabel = $(xlabel) $(xunits), ylabel = $(ylabel) $(yunits)]
 \addplot [no markers] table [x = $(xcol), y = $(ycol), col sep = comma] {$(datos)};
 \end{axis}
 \end{tikzpicture}
+\caption{Grafica de $(ylabel) contra $(xlabel).}
 \end{figure}
