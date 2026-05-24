@@ -9,13 +9,20 @@ void table_append(table_t *tbl, char *key, char *value) {
 	tbl->count++;
 }
 
+void table_append_float(table_t *tbl, char *key, float value, int decimals) {
+	strcpy(tbl->keys[tbl->count], key);
+	sprintf(tbl->values[tbl->count], "%.*f", decimals, value);
+	tbl->count++;
+}
+	
+
 void formater(char *src, char *dst, table_t *tbl) {
 	size_t v_beg = 0;
 	size_t j = 0;
-	for (size_t i = 0; i < strlen(src); i++) {
+	for (size_t i = 0; i <= strlen(src) ; i++) {
 		if (src[i] == '$' && src[i+1] == '(') {
-			v_beg = i + 2;
 			i += 2;
+			v_beg = i;
 		}
 		if (v_beg != 0) {
 			if (src[i] == ')') {
@@ -43,30 +50,26 @@ void chars_from_file(chars *str, char *path) {
 	FILE *file = fopen(path, "r");
 	while(!feof(file)) {
 		if (str->count >= str->cap) {
-			str->cap = str->cap ? str->cap * 2 : 1;
+			str->cap = str->cap == 0 ? 1 : str->cap * 2;
 			str->data = realloc(str->data, str->cap);
 		}
-		str->data[str->count++] = fgetc(file);
+		int ch = fgetc(file);
+		str->data[str->count++] = ch == EOF ? 0 : ch ;
 	}
-	if (str->count >= str->cap) {
-		str->cap = str->cap ? str->cap * 2 : 1;
-		str->data = realloc(str->data, str->cap);
-	}
-	str->data[str->count++] = '\0';
-
 	fclose(file);
 }
 
 void str_to_file(char *str, char *path) {
 	FILE *file = fopen(path, "w");
-	fprintf(file, "%s", str);
+	for (size_t i = 0; i < strlen(str); i++)
+		fputc(str[i], file);
 	fclose(file);
 }
 
 void formater_file (char *src_path, char *dst_path, table_t *tbl) {
-	chars src;
+	chars src = {0};
 	chars_from_file (&src, src_path);
-	char *dst = malloc(strlen(src.data));
+	char *dst = malloc(src.count * 2);
 	formater(src.data, dst, tbl);
 	str_to_file(dst, dst_path);
 	free(src.data);

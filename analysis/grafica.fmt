@@ -1,7 +1,8 @@
-\begin{figure}
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\begin{axis}[
-	title = {$(titulo)}
+\begin{axis}
+\addplot [no markers] table [x = $(xcol), y = $(ycol), col sep = comma] {$(datos)};
+\end{axis}
 \end{tikzpicture}
 \end{figure}

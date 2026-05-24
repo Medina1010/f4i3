@@ -7,8 +7,8 @@ int cmd (char *prompt) {
 }
 
 int main (void) {
-	cmd("gcc -c main.c");
-	cmd("gcc -c formater.c");
+	cmd("gcc -Wall -Wextra -c main.c");
+	cmd("gcc -Wall -Wextra -c formater.c");
 	cmd("gcc -lm -o main main.o formater.o");
 	return 0;
 }
