@@ -49,18 +49,42 @@ int main (void) {
 		rl.r
 	);
 	table_t tbl;
+	char regresion[256];
 
-	table_append(&tbl, "datos", "res/data.csv");
-	table_append(&tbl, "xcol", "tiempo");
-	table_append(&tbl, "ycol", "temperatura");
-	//table_append_float(&tbl, "pendiente", rl.m, -log10(rl.SSm)/2);
-	//table_append_float(&tbl, "des_pendiente", sqrt(rl.SSm), -log10(rl.SSm));
+	table_define(&tbl, "datos", "res/data.csv");
+	table_define(&tbl, "xcol", "tiempo");
+	table_define(&tbl, "ycol", "temperatura");
+	table_define(&tbl, "xletter", "t");
+	table_define(&tbl, "yletter", "T");
+	table_define(&tbl, "xlabel", "tiempo");
+	table_define(&tbl, "xunits", "s");
+	table_define(&tbl, "ylabel", "temperatura");
+	table_define(&tbl, "yunits", "\\degree C");
+	table_define_float(&tbl, "corr", rl.r, 8);
+	table_define_float(&tbl, "xi", time.data[0], 8);
+	table_define_float(&tbl, "xf", time.data[time.count - 1], 8);
+	table_define_float(&tbl, "pendiente", rl.m, 1-log10(sqrt(rl.SSm)));
+	table_define_float(&tbl, "intercepto", rl.b, 1-log10(sqrt(rl.SSm)));
+	table_define(&tbl, "line", "\\addplot[dashed, black, samples=2, domain=0:6000] {25};");
+	formater("e^($(pendiente)*x + $(intercepto))+25", regresion, &tbl);
+	table_define(&tbl, "regresion", regresion);
 	
 	formater_file("analysis/grafica.fmt", "src/grafica_1.tex", &tbl);
 
-	table_define(&tbl, "xcol", "tiempo");
+	formater("$(pendiente)*x + $(intercepto)", regresion, &tbl);
+	table_define(&tbl, "yletter", "\\ln(T-T_a)");
+	table_define(&tbl, "regresion", regresion);
 	table_define(&tbl, "ycol", "ln_temperatura");
+	table_define(&tbl, "ylabel", "logaritmo de temperatura relativa");
+	table_define(&tbl, "yunits", "ln\\degree C");
+	table_define(&tbl, "line", "");
+
 	formater_file("analysis/grafica.fmt", "src/grafica_2.tex", &tbl);
+
+	table_define_float(&tbl, "interceptoi", sqrt(rl.SSb), 1-log10(sqrt(rl.SSb)));
+	table_define_float(&tbl, "pendientei", sqrt(rl.SSm), 1-log10(sqrt(rl.SSm)));
+	formater_file("analysis/eq_reg.fmt", "src/eq_reg.tex", &tbl);
+	formater_file("analysis/corr.fmt", "src/corr.tex", &tbl);
 
 	return 0;
 }

@@ -1,8 +1,10 @@
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\begin{axis} [grid = both, xlabel = $(xlabel) $(xunits), ylabel = $(ylabel) $(yunits)]
-\addplot [no markers] table [x = $(xcol), y = $(ycol), col sep = comma] {$(datos)};
+\begin{axis} [grid = both, xlabel = $(xlabel) $\si{$(xunits)}$, ylabel = $(ylabel) $\si{$(yunits)}$]
+\addplot [no markers, blue] table [x = $(xcol), y = $(ycol), col sep = comma] {$(datos)};
+\addplot [no markers, red, domain=$(xi):$(xf)] {$(regresion)};
+$(line)
 \end{axis}
 \end{tikzpicture}
 \caption{Grafica de $(ylabel) contra $(xlabel).}

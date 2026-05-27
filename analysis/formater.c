@@ -30,6 +30,13 @@ void table_append_float(table_t *tbl, char *key, float value, int decimals) {
 	tbl->count++;
 }
 	
+void table_define_float(table_t *tbl, char *key, float value, int decimals) {
+	int index = table_search(tbl, key);
+	if (index != -1)
+		sprintf(tbl->values[index], "%.*f", decimals, value);
+	else
+		table_append_float(tbl, key, value, decimals);
+}
 
 void formater(char *src, char *dst, table_t *tbl) {
 	size_t v_beg = 0;
@@ -41,12 +48,15 @@ void formater(char *src, char *dst, table_t *tbl) {
 		}
 		if (v_beg != 0) {
 			if (src[i] == ')') {
-				for( size_t k = 0; k < tbl->count; k++) {
-					if (!strncmp(&src[v_beg], tbl->keys[k], i - v_beg)) {
+				char *text = malloc(i - v_beg);
+				strncpy(text, &src[v_beg], i - v_beg);
+				text[i - v_beg] = 0;
+				int k = -1;
+				if ( (k = table_search(tbl, text)) != -1) {
 						strcpy(&dst[j], tbl->values[k]);
 						j += strlen(tbl->values[k]);
-					}
 				}
+				free(text);
 				v_beg = 0;
 			}
 		} else {

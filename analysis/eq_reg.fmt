@@ -1,0 +1,7 @@
+\begin{equation}
+\begin{split}
+&$(yletter) = \\
+&($(pendiente)\pm $(pendientei))\ \si{$(yunits)/$(xunits)} \times $(xletter)
+\\ + &($(intercepto)\pm $(interceptoi))\ \si{$(yunits)}
+\end{split}
+\end{equation}
