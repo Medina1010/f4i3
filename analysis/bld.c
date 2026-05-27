@@ -11,5 +11,6 @@ int main (void) {
 	cmd("gcc -Wall -Wextra -c formater.c");
 	cmd("gcc -Wall -Wextra -c analysis.c");
 	cmd("gcc -lm -o main main.o formater.o analysis.o");
+	cmd("rm *.o");
 	return 0;
 }
