@@ -1,0 +1,11 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis} [grid = both, xlabel = tiempo $\si{s}$, ylabel = temperatura $\si{\degree C}$]
+\addplot [no markers, blue] table [x = tiempo, y = temperatura, col sep = comma] {res/data.csv};
+\addplot [no markers, dashed, red, domain=0.00000000:5830.05859375] {e^(-0.000303*x + 4.172928)+25};
+\addplot[dashed, black, samples=2, domain=0:6000] {25};
+\end{axis}
+\end{tikzpicture}
+\caption{Grafica de temperatura contra tiempo.}
+\end{figure}

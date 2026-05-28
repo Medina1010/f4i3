@@ -3,7 +3,7 @@
 \begin{tikzpicture}
 \begin{axis} [grid = both, xlabel = $(xlabel) $\si{$(xunits)}$, ylabel = $(ylabel) $\si{$(yunits)}$]
 \addplot [no markers, blue] table [x = $(xcol), y = $(ycol), col sep = comma] {$(datos)};
-\addplot [no markers, red, domain=$(xi):$(xf)] {$(regresion)};
+\addplot [no markers, dashed, red, domain=$(xi):$(xf)] {$(regresion)};
 $(line)
 \end{axis}
 \end{tikzpicture}
